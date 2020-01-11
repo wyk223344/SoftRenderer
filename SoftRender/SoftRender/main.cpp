@@ -1,13 +1,12 @@
 ﻿#include <iostream>
-#include "window/Window.h";
+#include "Game.h"
 
 using namespace std;
 
 
 int main() {
-    cout << "Hellow World!!!" << endl;
-    cout << "你好！世界！！！" << endl;
-    Window::Create();
-    system("pause");
+    cout << "程序开始！！！" << endl;
+    Game game = Game::Create();
+    game.start();
     return 0;
 }
