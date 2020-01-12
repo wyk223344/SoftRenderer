@@ -1,6 +1,6 @@
 #include "Window.h"
+#include <iostream>
 #include <assert.h>
-// #include <Windows.h>
 
 
 LRESULT CALLBACK ProcessMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
@@ -13,6 +13,7 @@ Window Window::Create(const char *title, int width, int height) {
     RegisterWindowClass();
     Window window = Window();
     window.createWindow(title, width, height);
+    window.createFrameBuffer(width, height);
     window.showWindow();
     return window;
 };
@@ -58,6 +59,51 @@ void Window::createWindow(const char *title, int width, int height) {
     
     m_Handle = handle;
     assert(handle != NULL);
+};
+
+
+void Window::createFrameBuffer(int width, int height) {
+    BITMAPINFOHEADER bi_header;
+    HBITMAP dib_bitmap;
+    HBITMAP old_bitmap;
+    HDC window_dc;
+    HDC memory_dc;
+
+    FrameBuffer frameBuffer = FrameBuffer::Create(width, height, 4);
+    // frameBuffer.clearPixelBuffer();
+    unsigned char * pixelBuffer = frameBuffer.getPixelBuffer();
+
+    window_dc = GetDC(m_Handle);
+    memory_dc = CreateCompatibleDC(window_dc);
+    ReleaseDC(m_Handle, window_dc);
+
+    memset(&bi_header, 0, sizeof(BITMAPINFOHEADER));
+    bi_header.biSize = sizeof(BITMAPINFOHEADER);
+    bi_header.biWidth = width;
+    bi_header.biHeight = -height;  /* top-down */
+    bi_header.biPlanes = 1;
+    bi_header.biBitCount = 32;
+    bi_header.biCompression = BI_RGB;
+    dib_bitmap = CreateDIBSection(memory_dc, (BITMAPINFO*)&bi_header,
+                                  DIB_RGB_COLORS, (void**)&pixelBuffer,
+                                  NULL, 0);
+    assert(dib_bitmap != NULL);
+    old_bitmap = (HBITMAP)SelectObject(memory_dc, dib_bitmap);
+    DeleteObject(old_bitmap);
+
+    m_MemoryDC = memory_dc;
+
+    std::cout << "createFrameBuffer" << sizeof(pixelBuffer) << bi_header.biSize << std::endl;
+};
+
+void Window::drawBuffer(FrameBuffer frameBuffer) {
+    frameBuffer.clonePixelBufferTo(m_FrameBuffer);
+    HDC window_dc = GetDC(m_Handle);
+    HDC memory_dc = m_MemoryDC;
+    int width = m_FrameBuffer.getWidth();
+    int height = m_FrameBuffer.getHeight();
+    BitBlt(window_dc, 0, 0, width, height, memory_dc, 0, 0, SRCCOPY);
+    ReleaseDC(m_Handle, window_dc);
 };
 
 void Window::showWindow() {

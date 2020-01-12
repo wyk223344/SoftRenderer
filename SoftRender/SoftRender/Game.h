@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "window/Window.h"
+#include "core/FrameBuffer.h"
 
 class Game {
 public:
@@ -9,7 +10,7 @@ public:
     void start();
 private:
     Window m_Window;
-
+    FrameBuffer m_FrameBuffer;
     void init();
     void loop();
 };
