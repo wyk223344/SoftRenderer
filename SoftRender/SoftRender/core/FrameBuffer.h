@@ -5,6 +5,7 @@ class FrameBuffer {
 public:
     static FrameBuffer Create(int width, int height, int channel);
     unsigned char *getPixelBuffer();
+    void setPixelBuffer(unsigned char *pixelBuffer);
     void clearPixelBuffer();
     int getWidth();
     int getHeight();

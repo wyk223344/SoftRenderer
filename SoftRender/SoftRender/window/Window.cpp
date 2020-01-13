@@ -70,8 +70,7 @@ void Window::createFrameBuffer(int width, int height) {
     HDC memory_dc;
 
     FrameBuffer frameBuffer = FrameBuffer::Create(width, height, 4);
-    // frameBuffer.clearPixelBuffer();
-    unsigned char * pixelBuffer = frameBuffer.getPixelBuffer();
+    unsigned char * pixelBuffer;
 
     window_dc = GetDC(m_Handle);
     memory_dc = CreateCompatibleDC(window_dc);
@@ -93,7 +92,10 @@ void Window::createFrameBuffer(int width, int height) {
 
     m_MemoryDC = memory_dc;
 
-    std::cout << "createFrameBuffer" << sizeof(pixelBuffer) << bi_header.biSize << std::endl;
+    std::cout << "createFrameBuffer" << sizeof(pixelBuffer) << std::endl;
+
+    frameBuffer.setPixelBuffer(pixelBuffer);
+    m_FrameBuffer = frameBuffer;
 };
 
 void Window::drawBuffer(FrameBuffer frameBuffer) {

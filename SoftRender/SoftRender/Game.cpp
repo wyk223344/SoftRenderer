@@ -26,9 +26,9 @@ void Game::loop() {
     while (!m_Window.shouldClose())
     {
         /* code */
-        // m_Window.drawBuffer(m_FrameBuffer);
+        m_Window.drawBuffer(m_FrameBuffer);
 
-        Sleep(100);
+        Sleep(1000);
     }
     
 };

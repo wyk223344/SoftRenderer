@@ -25,6 +25,11 @@ unsigned char *FrameBuffer::getPixelBuffer() {
 };
 
 
+void FrameBuffer::setPixelBuffer(unsigned char *pixelBuffer) {
+    clearPixelBuffer();
+    m_PixelBuffer = pixelBuffer;
+};
+
 void FrameBuffer::clearPixelBuffer() {
     free(m_PixelBuffer);
     m_PixelBuffer = NULL;
@@ -46,7 +51,7 @@ void FrameBuffer::clonePixelBufferTo(FrameBuffer destFrameBuffer) {
     int height = m_Height;
 
     unsigned char *curPixelBuffer = m_PixelBuffer;
-    unsigned char *destPixelBuffer = destFrameBuffer.getPixelBuffer();
+    unsigned char *destPixelBuffer = destFrameBuffer.m_PixelBuffer;
 
     for (int r = 0; r < height; r++) {
         for (int c = 0; c < width; c++) {
