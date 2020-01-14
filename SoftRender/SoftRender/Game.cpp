@@ -81,9 +81,9 @@ void Game::loop() {
         for (int j = 0; j < 3; j++) {
             Vertex v0 = model.m_Vertexes[i + j];
             Vertex v1 = model.m_Vertexes[i + (j + 1) % 3];
-            int x0 = (v0.position.x + 1.) * 400;
+            int x0 = v0.position.x * 300 + 400;
             int y0 = (v0.position.y + 1.) * 300;
-            int x1 = (v1.position.x + 1.) * 400;
+            int x1 = v1.position.x * 300 + 400;
             int y1 = (v1.position.y + 1.) * 300;
             // std::cout << "(x:" << x0 << ",y:" << y0 << ")  (x:" << x1 << ",y:" << y1 << ")" << std::endl;
             DrawLine(x0, y0, x1, y1, m_FrameBuffer, whiteColor);
