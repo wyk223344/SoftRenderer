@@ -51,7 +51,7 @@ void FrameBuffer::clonePixelBufferTo(FrameBuffer destFrameBuffer) {
     int height = m_Height;
 
     unsigned char *curPixelBuffer = m_PixelBuffer;
-    unsigned char *destPixelBuffer = destFrameBuffer.m_PixelBuffer;
+    unsigned char *destPixelBuffer = destFrameBuffer.getPixelBuffer();
 
     for (int r = 0; r < height; r++) {
         for (int c = 0; c < width; c++) {
@@ -66,3 +66,19 @@ void FrameBuffer::clonePixelBufferTo(FrameBuffer destFrameBuffer) {
         }
     }
 };
+
+
+void FrameBuffer::drawPixel(unsigned int x, unsigned int y, Vector4 color) {
+    if(x < 0 || x >= m_Width || y < 0 || y >= m_Height)
+        return;
+    // gamma correction.
+    unsigned char red = static_cast<unsigned char>(255*pow(color.x,1.0/2.2));
+    unsigned char green = static_cast<unsigned char>(255*pow(color.y,1.0/2.2));
+    unsigned char blue = static_cast<unsigned char>(255*pow(color.z,1.0/2.2));
+    unsigned char alpha = static_cast<unsigned char>(255*color.w);
+    unsigned int index = y * m_Width * m_Channel + x * m_Channel;
+    m_PixelBuffer[index + 0] = red;
+    m_PixelBuffer[index + 1] = green;
+    m_PixelBuffer[index + 2] = blue;
+    m_PixelBuffer[index + 3] = alpha;
+}

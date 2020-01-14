@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{43D3D777-443B-4783-A67D-879F94341F0B}</ProjectGuid>
     <RootNamespace>SoftRender</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -119,6 +119,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="core\FrameBuffer.cpp" />
+    <ClCompile Include="core\Model.cpp" />
+    <ClCompile Include="core\Vertex.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="math\Vector2.cpp" />
@@ -129,6 +131,8 @@
   <ItemGroup>
     <ClInclude Include="core\FrameBuffer.h" />
     <ClInclude Include="core\Graphics.h" />
+    <ClInclude Include="core\Model.h" />
+    <ClInclude Include="core\Vertex.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
