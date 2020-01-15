@@ -67,6 +67,20 @@ void DrawTriangle(Vector2 t0, Vector2 t1, Vector2 t2, FrameBuffer frameBuffer, V
         std::swap(t1, t2);
     }
     int totalHeight = t2.y - t0.y;
+    for (int i = 0; i < totalHeight; i++) {
+        bool isSecondHalf = i > (t1.y - t0.y) || t1.y == t0.y;
+        int segmentHeight = isSecondHalf ? t2.y - t1.y : t1.y - t0.y;
+        float alpha = (float) i / totalHeight;
+        float beta = (float) (i - (isSecondHalf ? t1.y - t0.y : 0)) / segmentHeight;
+        Vector2 pointA = t0 + (t2 - t0) * alpha;
+        Vector2 pointB = isSecondHalf ? t1 + (t2 - t1) * beta : t0 + (t1 - t0) * beta;
+        if (pointA.x > pointB.x) {
+            std::swap(pointA, pointB);
+        }
+        for (int j = pointA.x; j <= pointB.x; j++) {
+            frameBuffer.drawPixel(j, t0.y + i, color);
+        }
+    }
     
 };
 
@@ -93,18 +107,6 @@ void Game::loop() {
     // DrawLine(20, 13, 400, 200, m_FrameBuffer, Vector4(1, 1, 1, 1));
     // DrawLine(20, 13, 50, 500, m_FrameBuffer, Vector4(0, 1, 0, 1));
 
-    // for (int i=0; i<model->nfaces(); i++) { 
-    //     std::vector<int> face = model->face(i); 
-    //     for (int j=0; j<3; j++) { 
-    //         Vec3f v0 = model->vert(face[j]); 
-    //         Vec3f v1 = model->vert(face[(j+1)%3]); 
-    //         int x0 = (v0.x+1.)*width/2.; 
-    //         int y0 = (v0.y+1.)*height/2.; 
-    //         int x1 = (v1.x+1.)*width/2.; 
-    //         int y1 = (v1.y+1.)*height/2.; 
-    //         line(x0, y0, x1, y1, image, white); 
-    //     } 
-    // }
 
     m_Window.drawBuffer(m_FrameBuffer);
     Sleep(10000);

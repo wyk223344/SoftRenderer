@@ -11,6 +11,12 @@ struct Vector4
     Vector4(const Vector3 &vector3): x(vector3.x), y(vector3.y), z(vector3.z), w(1.0f) {};
 
     Vector4 operator+(const Vector4 &b);
+
+	Vector4 operator-(const Vector4 &b);
+
+	Vector4 operator*(double b);
+
+	Vector4 operator*(const Vector4 &b);
 };
 
 
