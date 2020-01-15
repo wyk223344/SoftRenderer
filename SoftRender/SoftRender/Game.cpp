@@ -90,19 +90,30 @@ void Game::loop() {
     std::cout << "Vertex Size:" << model.m_Vertexes.size() << std::endl;
 
     Vector4 whiteColor = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+    Vector4 redColor = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+    Vector4 greenColor = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+    Vector4 blueColor = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
 
-    for (int i = 0; i < model.m_Vertexes.size(); i+=3) {
-        for (int j = 0; j < 3; j++) {
-            Vertex v0 = model.m_Vertexes[i + j];
-            Vertex v1 = model.m_Vertexes[i + (j + 1) % 3];
-            int x0 = v0.position.x * 300 + 400;
-            int y0 = (v0.position.y + 1.) * 300;
-            int x1 = v1.position.x * 300 + 400;
-            int y1 = (v1.position.y + 1.) * 300;
-            // std::cout << "(x:" << x0 << ",y:" << y0 << ")  (x:" << x1 << ",y:" << y1 << ")" << std::endl;
-            DrawLine(x0, y0, x1, y1, m_FrameBuffer, whiteColor);
-        }
-    }
+
+    Vector2 t0[3] = {Vector2(10, 70),   Vector2(50, 160),  Vector2(70, 80)}; 
+    Vector2 t1[3] = {Vector2(180, 50),  Vector2(150, 1),   Vector2(70, 180)}; 
+    Vector2 t2[3] = {Vector2(180, 150), Vector2(120, 160), Vector2(130, 180)}; 
+    DrawTriangle(t0[0], t0[1], t0[2], m_FrameBuffer, redColor); 
+    DrawTriangle(t1[0], t1[1], t1[2], m_FrameBuffer, whiteColor); 
+    DrawTriangle(t2[0], t2[1], t2[2], m_FrameBuffer, greenColor);
+
+    // for (int i = 0; i < model.m_Vertexes.size(); i+=3) {
+    //     for (int j = 0; j < 3; j++) {
+    //         Vertex v0 = model.m_Vertexes[i + j];
+    //         Vertex v1 = model.m_Vertexes[i + (j + 1) % 3];
+    //         int x0 = v0.position.x * 300 + 400;
+    //         int y0 = (v0.position.y + 1.) * 300;
+    //         int x1 = v1.position.x * 300 + 400;
+    //         int y1 = (v1.position.y + 1.) * 300;
+    //         // std::cout << "(x:" << x0 << ",y:" << y0 << ")  (x:" << x1 << ",y:" << y1 << ")" << std::endl;
+    //         DrawLine(x0, y0, x1, y1, m_FrameBuffer, whiteColor);
+    //     }
+    // }
 
     // DrawLine(20, 13, 400, 200, m_FrameBuffer, Vector4(1, 1, 1, 1));
     // DrawLine(20, 13, 50, 500, m_FrameBuffer, Vector4(0, 1, 0, 1));
