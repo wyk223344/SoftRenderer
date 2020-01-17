@@ -14,6 +14,8 @@ struct Vector2
 	Vector2 operator*(double b);
 
 	Vector2 operator*(const Vector2 &b);
+
+    float& operator[](int i);
 };
 
 #endif

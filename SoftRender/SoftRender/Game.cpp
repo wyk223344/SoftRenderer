@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <iostream>
 #include "core/Model.h"
+#include "core/Util.h"
+
 
 Game Game::Create() {
     Game game = Game();
@@ -20,69 +22,13 @@ void Game::start() {
 void Game::init() {
     m_Window = Window::Create("View", 800, 600);
     m_FrameBuffer = FrameBuffer::Create(800, 600, 4);
+
+    Vector3 test = Vector3(1.0f, 2.0f, 3.0f);
+    std::cout << test[0] << ";" << test[1] << ";" << test[2] << std::endl;
+    test[0] = 1000;
+    std::cout << test[0] << ";" << test[1] << ";" << test[2] << std::endl;
 };
 
-
-void DrawLine(int x0, int y0, int x1, int y1, FrameBuffer frameBuffer, Vector4 color) {
-    bool steep = false;
-    if (std::abs(x0 - x1) < std::abs(y0 - y1)) {
-        std::swap(x0, y0);
-        std::swap(x1, y1);
-        steep = true;
-    }
-    if (x0 > x1) {
-        std::swap(x0, x1);
-        std::swap(y0, y1);
-    }
-    int dx = x1 - x0;
-    int dy = y1 - y0;
-    int derror2 = std::abs(dy)*2;
-    int error2 = 0;
-    int y = y0;
-    for (int x = x0; x <= x1; x++) {
-        // float t = (x - x0) / (float)(x1 - x0);
-        // int y = y0 * (1.0 - t) + y1 * t;
-        if (steep) {
-            frameBuffer.drawPixel(y, x, color);
-        } else {
-            frameBuffer.drawPixel(x, y, color);
-        }
-        error2 += derror2;
-        if (error2 > dx) {
-            y += (y1 > y0 ? 1 : -1);
-            error2 -= dx * 2;
-        }
-    }
-};
-
-
-void DrawTriangle(Vector2 t0, Vector2 t1, Vector2 t2, FrameBuffer frameBuffer, Vector4 color) {
-    if (t0.y > t1.y) {
-        std::swap(t0, t1);
-    }
-    if (t0.y > t2.y) {
-        std::swap(t0, t2);
-    }
-    if (t1.y > t2.y) {
-        std::swap(t1, t2);
-    }
-    int totalHeight = t2.y - t0.y;
-    for (int i = 0; i < totalHeight; i++) {
-        bool isSecondHalf = i > (t1.y - t0.y) || t1.y == t0.y;
-        int segmentHeight = isSecondHalf ? t2.y - t1.y : t1.y - t0.y;
-        float alpha = (float) i / totalHeight;
-        float beta = (float) (i - (isSecondHalf ? t1.y - t0.y : 0)) / segmentHeight;
-        Vector2 pointA = t0 + (t2 - t0) * alpha;
-        Vector2 pointB = isSecondHalf ? t1 + (t2 - t1) * beta : t0 + (t1 - t0) * beta;
-        if (pointA.x > pointB.x) {
-            std::swap(pointA, pointB);
-        }
-        for (int j = pointA.x; j <= pointB.x; j++) {
-            frameBuffer.drawPixel(j, t0.y + i, color);
-        }
-    }
-    
-};
 
 
 void Game::loop() {
@@ -95,25 +41,30 @@ void Game::loop() {
     Vector4 blueColor = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
 
 
-    Vector2 t0[3] = {Vector2(10, 70),   Vector2(50, 160),  Vector2(70, 80)}; 
-    Vector2 t1[3] = {Vector2(180, 50),  Vector2(150, 1),   Vector2(70, 180)}; 
-    Vector2 t2[3] = {Vector2(180, 150), Vector2(120, 160), Vector2(130, 180)}; 
-    DrawTriangle(t0[0], t0[1], t0[2], m_FrameBuffer, redColor); 
-    DrawTriangle(t1[0], t1[1], t1[2], m_FrameBuffer, whiteColor); 
-    DrawTriangle(t2[0], t2[1], t2[2], m_FrameBuffer, greenColor);
-
-    // for (int i = 0; i < model.m_Vertexes.size(); i+=3) {
-    //     for (int j = 0; j < 3; j++) {
-    //         Vertex v0 = model.m_Vertexes[i + j];
-    //         Vertex v1 = model.m_Vertexes[i + (j + 1) % 3];
-    //         int x0 = v0.position.x * 300 + 400;
-    //         int y0 = (v0.position.y + 1.) * 300;
-    //         int x1 = v1.position.x * 300 + 400;
-    //         int y1 = (v1.position.y + 1.) * 300;
-    //         // std::cout << "(x:" << x0 << ",y:" << y0 << ")  (x:" << x1 << ",y:" << y1 << ")" << std::endl;
-    //         DrawLine(x0, y0, x1, y1, m_FrameBuffer, whiteColor);
-    //     }
-    // }
+    Vector3 lightDir = Vector3(0, 0, -1).normalize();
+    for (int i = 0; i < model.m_Vertexes.size(); i+=3) {
+        Vector2 screenCoords[3];
+        Vector3 worldCoords[3];
+        for (int j = 0; j < 3; j++) {
+            Vertex v0 = model.m_Vertexes[i + j];
+            Vertex v1 = model.m_Vertexes[i + (j + 1) % 3];
+            int x0 = v0.position.x * 300 + 400;
+            int y0 = (v0.position.y + 1.) * 300;
+            int x1 = v1.position.x * 300 + 400;
+            int y1 = (v1.position.y + 1.) * 300;
+            screenCoords[j] = Vector2(x0, y0);
+            worldCoords[j] = v0.position;
+        }
+        Vector3 n = (worldCoords[2]-worldCoords[0]).cross(worldCoords[1] - worldCoords[0]);
+        n.normalize();
+        float intensity = n.dot(lightDir);
+        // std::cout << intensity << std::endl;
+        if (intensity > 0) {
+            // std::cout << intensity << std::endl;
+            Vector4 color = Vector4(intensity, intensity, intensity, 1.0f);
+            Util::DrawTriangle(screenCoords[0], screenCoords[1], screenCoords[2], m_FrameBuffer, color);
+        }
+    }
 
     // DrawLine(20, 13, 400, 200, m_FrameBuffer, Vector4(1, 1, 1, 1));
     // DrawLine(20, 13, 50, 500, m_FrameBuffer, Vector4(0, 1, 0, 1));
