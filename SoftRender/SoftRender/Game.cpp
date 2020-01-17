@@ -40,10 +40,14 @@ void Game::loop() {
     Vector4 greenColor = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
     Vector4 blueColor = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
 
+    int width = m_FrameBuffer.getWidth();
+    int height = m_FrameBuffer.getHeight();
+    float *zBuffer = new float[width * height];
+    for (int i=width*height; i--; zBuffer[i] = -(std::numeric_limits<float>::max)());
 
     Vector3 lightDir = Vector3(0, 0, -1).normalize();
     for (int i = 0; i < model.m_Vertexes.size(); i+=3) {
-        Vector2 screenCoords[3];
+        Vector3 screenCoords[3];
         Vector3 worldCoords[3];
         for (int j = 0; j < 3; j++) {
             Vertex v0 = model.m_Vertexes[i + j];
@@ -52,7 +56,7 @@ void Game::loop() {
             int y0 = (v0.position.y + 1.) * 300;
             int x1 = v1.position.x * 300 + 400;
             int y1 = (v1.position.y + 1.) * 300;
-            screenCoords[j] = Vector2(x0, y0);
+            screenCoords[j] = Vector3(x0, y0, v0.position.z);
             worldCoords[j] = v0.position;
         }
         Vector3 n = (worldCoords[2]-worldCoords[0]).cross(worldCoords[1] - worldCoords[0]);
@@ -62,7 +66,7 @@ void Game::loop() {
         if (intensity > 0) {
             // std::cout << intensity << std::endl;
             Vector4 color = Vector4(intensity, intensity, intensity, 1.0f);
-            Util::DrawTriangle(screenCoords[0], screenCoords[1], screenCoords[2], m_FrameBuffer, color);
+            Util::DrawTriangle(screenCoords, zBuffer, m_FrameBuffer, color);
         }
     }
 
