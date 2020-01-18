@@ -3,8 +3,10 @@
 #include "../math/Vector3.h"
 #include "../math/Vector4.h"
 #include "FrameBuffer.h"
+#include "Image.h"
 #include <cmath>
 #include <algorithm>
+#include <iostream>
 
 
 Vector3 Util::CalcuBarycentric(Vector2 *pts, Vector2 point) {
@@ -54,7 +56,7 @@ void Util::DrawLine(int x0, int y0, int x1, int y1, FrameBuffer frameBuffer, Vec
 
 const float MAX_FLOAT = (std::numeric_limits<float>::max)();
 
-void Util::DrawTriangle(Vector3 *pts, float *zBuffer, FrameBuffer frameBuffer, Vector4 color) {
+void Util::DrawTriangle(Vector3 *pts, float *zBuffer, FrameBuffer frameBuffer, Vector2 *uvs, Image image, float intensity) {
     Vector2 vBoxMin(MAX_FLOAT, MAX_FLOAT);
     Vector2 vBoxMax(-MAX_FLOAT, -MAX_FLOAT);
     Vector2 vClamp(frameBuffer.getWidth() - 1, frameBuffer.getHeight() - 1);
@@ -68,14 +70,26 @@ void Util::DrawTriangle(Vector3 *pts, float *zBuffer, FrameBuffer frameBuffer, V
     }
 
     Vector3 vTemp;
+    Vector2 uv;
     for (vTemp.x = vBoxMin.x; vTemp.x <= vBoxMax.x; vTemp.x++) {
         for (vTemp.y = vBoxMin.y; vTemp.y <= vBoxMax.y; vTemp.y++) {
             Vector3 bcScreen = CalcuBarycentric(pts2, Vector2(vTemp.x, vTemp.y));
             if (bcScreen.x < 0 || bcScreen.y < 0 || bcScreen.z < 0) continue;
             vTemp.z = 0;
-            for (int i = 0; i < 3; i++) vTemp.z += pts[i][2] * bcScreen[i];
+            uv.x = 0;
+            uv.y = 0;
+            for (int i = 0; i < 3; i++) {
+                vTemp.z += pts[i][2] * bcScreen[i];
+                uv.x += uvs[i][0] * bcScreen[i];
+                uv.y += uvs[i][1] * bcScreen[i];
+            }
             int index = int(vTemp.x + vTemp.y * frameBuffer.getWidth());
             if (zBuffer[index] < vTemp.z) {
+                Vector4 color = image.getColor(uv.x, uv.y);
+                color.x *= intensity;
+                color.y *= intensity;
+                color.z *= intensity;
+                // std::cout << "u:" << uv.x << ";v:" << uv.y << ";color" << color.x << std::endl;
                 zBuffer[index] = vTemp.z;
                 frameBuffer.drawPixel(vTemp.x, vTemp.y, color);
             }

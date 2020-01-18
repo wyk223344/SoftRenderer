@@ -1,8 +1,7 @@
 #ifndef VECTOR2_H
 #define VECTOR2_H
 
-struct Vector2
-{
+struct Vector2 {
     float x, y;
 
     Vector2(float _x=0.0f, float _y=0.0f): x(_x), y(_y) {};

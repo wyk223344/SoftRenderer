@@ -4,7 +4,7 @@
 #include <sstream>
 
 
-Model::Model(const std::string &path) {
+Model::Model(const std::string path) {
     std::ifstream in;
     in.open (path, std::ifstream::in);
     if (in.fail()) {
@@ -56,4 +56,9 @@ Model::Model(const std::string &path) {
     }
     in.close();
     std::cout << "Model load finish" << std::endl;
+    size_t dotIndex = path.find_last_of(".");
+    if (dotIndex != std::string::npos) {
+        std::string fileName = path.substr(0, dotIndex);
+        m_DiffuseMapImage.readTgaFile((fileName + "_diffuse.tga").c_str());
+    }
 };

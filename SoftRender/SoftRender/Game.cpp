@@ -22,11 +22,6 @@ void Game::start() {
 void Game::init() {
     m_Window = Window::Create("View", 800, 600);
     m_FrameBuffer = FrameBuffer::Create(800, 600, 4);
-
-    Vector3 test = Vector3(1.0f, 2.0f, 3.0f);
-    std::cout << test[0] << ";" << test[1] << ";" << test[2] << std::endl;
-    test[0] = 1000;
-    std::cout << test[0] << ";" << test[1] << ";" << test[2] << std::endl;
 };
 
 
@@ -49,6 +44,7 @@ void Game::loop() {
     for (int i = 0; i < model.m_Vertexes.size(); i+=3) {
         Vector3 screenCoords[3];
         Vector3 worldCoords[3];
+        Vector2 uvs[3];
         for (int j = 0; j < 3; j++) {
             Vertex v0 = model.m_Vertexes[i + j];
             Vertex v1 = model.m_Vertexes[i + (j + 1) % 3];
@@ -58,6 +54,7 @@ void Game::loop() {
             int y1 = (v1.position.y + 1.) * 300;
             screenCoords[j] = Vector3(x0, y0, v0.position.z);
             worldCoords[j] = v0.position;
+            uvs[j] = v0.texcoord;
         }
         Vector3 n = (worldCoords[2]-worldCoords[0]).cross(worldCoords[1] - worldCoords[0]);
         n.normalize();
@@ -65,8 +62,8 @@ void Game::loop() {
         // std::cout << intensity << std::endl;
         if (intensity > 0) {
             // std::cout << intensity << std::endl;
-            Vector4 color = Vector4(intensity, intensity, intensity, 1.0f);
-            Util::DrawTriangle(screenCoords, zBuffer, m_FrameBuffer, color);
+            // Vector4 color = Vector4(intensity, intensity, intensity, 1.0f);
+            Util::DrawTriangle(screenCoords, zBuffer, m_FrameBuffer, uvs, model.m_DiffuseMapImage, intensity);
         }
     }
 

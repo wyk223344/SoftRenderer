@@ -6,8 +6,7 @@
 #include "../math/Vector4.h"
 
 
-struct Vertex
-{
+struct Vertex {
     Vector4 position;
     Vector4 color;
     Vector2 texcoord;
