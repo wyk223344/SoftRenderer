@@ -95,28 +95,4 @@ void Util::DrawTriangle(Vector3 *pts, float *zBuffer, FrameBuffer frameBuffer, V
             }
         }
     }
-    // if (t0.y > t1.y) {
-    //     std::swap(t0, t1);
-    // }
-    // if (t0.y > t2.y) {
-    //     std::swap(t0, t2);
-    // }
-    // if (t1.y > t2.y) {
-    //     std::swap(t1, t2);
-    // }
-    // int totalHeight = t2.y - t0.y;
-    // for (int i = 0; i < totalHeight; i++) {
-    //     bool isSecondHalf = i > (t1.y - t0.y) || t1.y == t0.y;
-    //     int segmentHeight = isSecondHalf ? t2.y - t1.y : t1.y - t0.y;
-    //     float alpha = (float) i / totalHeight;
-    //     float beta = (float) (i - (isSecondHalf ? t1.y - t0.y : 0)) / segmentHeight;
-    //     Vector2 pointA = t0 + (t2 - t0) * alpha;
-    //     Vector2 pointB = isSecondHalf ? t1 + (t2 - t1) * beta : t0 + (t1 - t0) * beta;
-    //     if (pointA.x > pointB.x) {
-    //         std::swap(pointA, pointB);
-    //     }
-    //     for (int j = pointA.x; j <= pointB.x; j++) {
-    //         frameBuffer.drawPixel(j, t0.y + i, color);
-    //     }
-    // }
 }

@@ -5,6 +5,17 @@
 #include "core/Model.h"
 #include "core/Util.h"
 
+#include "math/Matrix4x4.h"
+
+void test() {
+    std::cout << "test start----------------->" << std::endl;
+    Matrix4x4 mat;
+    std::cout << mat.elements[0][3] << std::endl;
+    mat[0][3] = 1;
+    std::cout << mat.elements[0][3] << std::endl;
+    std::cout << "test end------------------->" << std::endl;
+}
+
 
 Game Game::Create() {
     Game game = Game();
@@ -20,6 +31,7 @@ void Game::start() {
 
 
 void Game::init() {
+    test();
     m_Window = Window::Create("View", 800, 600);
     m_FrameBuffer = FrameBuffer::Create(800, 600, 4);
 };
