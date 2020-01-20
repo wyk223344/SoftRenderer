@@ -45,6 +45,21 @@
     <ClCompile Include="core\Util.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="core\Image.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Transform3D.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="math\Matrix4x4.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="math\Quaternion.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="window\Window.h">
@@ -75,6 +90,21 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="core\Util.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Image.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Transform3D.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="math\Quaternion.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="math\Matrix4x4.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

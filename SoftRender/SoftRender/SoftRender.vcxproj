@@ -118,24 +118,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="core\Camera.cpp" />
     <ClCompile Include="core\FrameBuffer.cpp" />
+    <ClCompile Include="core\Image.cpp" />
     <ClCompile Include="core\Model.cpp" />
+    <ClCompile Include="core\Transform3D.cpp" />
     <ClCompile Include="core\Util.cpp" />
     <ClCompile Include="core\Vertex.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="math\Matrix4x4.cpp" />
+    <ClCompile Include="math\Quaternion.cpp" />
     <ClCompile Include="math\Vector2.cpp" />
     <ClCompile Include="math\Vector3.cpp" />
     <ClCompile Include="math\Vector4.cpp" />
     <ClCompile Include="window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="core\Camera.h" />
     <ClInclude Include="core\FrameBuffer.h" />
     <ClInclude Include="core\Graphics.h" />
+    <ClInclude Include="core\Image.h" />
     <ClInclude Include="core\Model.h" />
+    <ClInclude Include="core\Transform3D.h" />
     <ClInclude Include="core\Util.h" />
     <ClInclude Include="core\Vertex.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="math\Matrix4x4.h" />
+    <ClInclude Include="math\Quaternion.h" />
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
