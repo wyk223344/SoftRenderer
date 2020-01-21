@@ -15,6 +15,7 @@ Window Window::Create(const char *title, int width, int height) {
     window.createWindow(title, width, height);
     window.createFrameBuffer(width, height);
     window.showWindow();
+    SetProp(window.m_Handle, WINDOW_ENTRY_NAME, &window);
     return window;
 };
 

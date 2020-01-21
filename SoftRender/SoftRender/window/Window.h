@@ -5,6 +5,7 @@
 #include "../core/FrameBuffer.h"
 
 static const wchar_t *WINDOW_CLASS_NAME = L"Class";
+static const wchar_t *WINDOW_ENTRY_NAME = L"Entry";
 
 class Window {
 public:

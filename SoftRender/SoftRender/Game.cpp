@@ -4,6 +4,7 @@
 #include <iostream>
 #include "core/Model.h"
 #include "core/Util.h"
+#include "core/Camera.h"
 
 #include "math/Matrix4x4.h"
 
@@ -32,8 +33,8 @@ void Game::start() {
 
 void Game::init() {
     test();
-    m_Window = Window::Create("View", 800, 600);
-    m_FrameBuffer = FrameBuffer::Create(800, 600, 4);
+    m_Window = Window::Create("View", WINDOW_WIDTH, WINDOW_HEIGHT);
+    m_FrameBuffer = FrameBuffer::Create(WINDOW_WIDTH, WINDOW_HEIGHT, 4);
 };
 
 
@@ -52,6 +53,17 @@ void Game::loop() {
     float *zBuffer = new float[width * height];
     for (int i=width*height; i--; zBuffer[i] = -(std::numeric_limits<float>::max)());
 
+    Camera camera(45.0f, float(WINDOW_WIDTH) / WINDOW_HEIGHT);
+    camera.updateTransfrom(Vector3(0, 0, 30.0f), Vector3(0, 0, 0));
+    Matrix4x4 matrixViewProjection = camera.m_ViewProjectionMatrix;
+    matrixViewProjection.print();
+    camera.m_ViewMatrix.print();
+    camera.m_ProjectionMatrix.print();
+    camera.updateTransfrom(Vector3(0, 0, 3.0f), Vector3(0, 0, 0));
+    camera.m_ViewProjectionMatrix.print();
+    camera.m_ViewMatrix.print();
+    camera.m_ProjectionMatrix.print();
+
     Vector3 lightDir = Vector3(0, 0, -1).normalize();
     for (int i = 0; i < model.m_Vertexes.size(); i+=3) {
         Vector3 screenCoords[3];
@@ -59,12 +71,10 @@ void Game::loop() {
         Vector2 uvs[3];
         for (int j = 0; j < 3; j++) {
             Vertex v0 = model.m_Vertexes[i + j];
-            Vertex v1 = model.m_Vertexes[i + (j + 1) % 3];
-            int x0 = v0.position.x * 300 + 400;
-            int y0 = (v0.position.y + 1.) * 300;
-            int x1 = v1.position.x * 300 + 400;
-            int y1 = (v1.position.y + 1.) * 300;
-            screenCoords[j] = Vector3(x0, y0, v0.position.z);
+            // int x0 = v0.position.x * 300 + 400;
+            // int y0 = (v0.position.y + 1.) * 300;
+            Vector3 temp = matrixViewProjection * v0.position;
+            screenCoords[j] = Vector3(temp.x * 400.0f + 400.0f, temp.y * 300.0f + 300.0f, temp.z);
             worldCoords[j] = v0.position;
             uvs[j] = v0.texcoord;
         }
