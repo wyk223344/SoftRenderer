@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{43D3D777-443B-4783-A67D-879F94341F0B}</ProjectGuid>
     <RootNamespace>SoftRender</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -76,7 +76,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -97,6 +102,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -123,7 +129,6 @@
     <ClCompile Include="core\Image.cpp" />
     <ClCompile Include="core\Model.cpp" />
     <ClCompile Include="core\Transform3D.cpp" />
-    <ClCompile Include="core\Util.cpp" />
     <ClCompile Include="core\Vertex.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
@@ -132,6 +137,7 @@
     <ClCompile Include="math\Vector2.cpp" />
     <ClCompile Include="math\Vector3.cpp" />
     <ClCompile Include="math\Vector4.cpp" />
+    <ClCompile Include="util\DrawUtil.cpp" />
     <ClCompile Include="window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -141,7 +147,6 @@
     <ClInclude Include="core\Image.h" />
     <ClInclude Include="core\Model.h" />
     <ClInclude Include="core\Transform3D.h" />
-    <ClInclude Include="core\Util.h" />
     <ClInclude Include="core\Vertex.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="math\Matrix4x4.h" />
@@ -149,6 +154,10 @@
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
+    <ClInclude Include="util\DrawUtil.h" />
+    <ClInclude Include="util\LogUtil.h" />
+    <ClInclude Include="util\StringUtil.h" />
+    <ClInclude Include="util\Util.h" />
     <ClInclude Include="window\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

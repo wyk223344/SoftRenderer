@@ -20,6 +20,9 @@ public:
 
     Camera(float fovy, float aspect): m_Fovy(fovy), m_Aspect(aspect) { updateProjectionMatrix(); };
     void updateTransfrom(Vector3 position, Vector3 target, Vector3 upDir=Vector3(0,1,0));
+
+    void updatePosition(Vector3 position);
+
 private:
     void updateViewMatrix();
     void updateProjectionMatrix();

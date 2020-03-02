@@ -9,12 +9,9 @@ class Model {
 public:
     std::vector<Vertex> m_Vertexes; 
     std::vector<unsigned int> m_Indices;
-    Image m_DiffuseMapImage;
+    Image *m_DiffuseMapImage;
 
     Model(const std::string path);
-    // void loadFile(const std::string &path);
-
-    // void loadTexture(const char *path, Image &image);
 };
 
 

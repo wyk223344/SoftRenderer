@@ -1,4 +1,5 @@
 #include "Image.h"
+#include "../util/Util.h"
 
 #pragma pack(1)
 struct TGAHeader {
@@ -20,29 +21,28 @@ struct TGAHeader {
 
 
 bool Image::readTgaFile(const char *fileName) {
+    LogUtil::LogInfo("[Image]Start load image file %s.", fileName);
     if (data) delete [] data;
     data = NULL;
     std::ifstream in;
     in.open(fileName, std::ios::binary);
-    if (!in.is_open()) {
-        std::cerr << "can't open file " << fileName << std::endl;
-        in.close();
+    if (in.fail()) {
+        LogUtil::LogError("[Image]File %s load fail.", fileName);
         return false;
     }
     TGAHeader tgaHeader;
     in.read((char *)&tgaHeader, sizeof(tgaHeader));
     if (!in.good()) {
         in.close();
-        std::cerr << "an error occured while reading the header" << std::endl;
+        LogUtil::LogError("[Image]An error occured while reading the header.");
         return false;
     }
     width = tgaHeader.width;
     height = tgaHeader.height;
     bytesLen = tgaHeader.bitsPerPixel >> 3;
-    std::cout << "tgaHeader:" << fileName << ";" << width << ";" << height << ";" << bytesLen << ";" << tgaHeader.imageType << ";" << tgaHeader.imageDescriptor << std::endl;
     if (width<=0 || height<=0 || (bytesLen!=GRAYSCALE && bytesLen!=RGB && bytesLen!=RGBA)) {
         in.close();
-        std::cerr << "bad bytesLen (or width/height) value" << std::endl;
+        LogUtil::LogError("[Image]Bad bytesLen (or width/height) value.");
         return false;
     }
     unsigned long length = bytesLen * width * height;
@@ -53,6 +53,7 @@ bool Image::readTgaFile(const char *fileName) {
         loadRLEData(in);
     }
     in.close();
+    LogUtil::LogInfo("[Image]Finish load image file.");
     return true;
 }
 

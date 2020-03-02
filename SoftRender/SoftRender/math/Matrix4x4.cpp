@@ -19,7 +19,7 @@ void Matrix4x4::updateMatrix(Vector3 position, Quaternion rotation, Vector3 scal
 void Matrix4x4::identity() {
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
-            elements[i][j] = i == j ? 1 : 0;
+            elements[i][j] = i == j ? 1.0f : 0.0f;
         }
     }
 }
@@ -155,7 +155,7 @@ Matrix4x4 Matrix4x4::CreatePerspectiveProjectionMatrix(float left, float right, 
     outMatrix[2][2] = -(far + near) * tempZ;
     outMatrix[2][3] = -2.0f * far * near * tempZ;
     outMatrix[3][2] = -1.0f;
-    outMatrix[3][3] = 0;
+    outMatrix[3][3] = 0.0f;
     return outMatrix;
 }
 

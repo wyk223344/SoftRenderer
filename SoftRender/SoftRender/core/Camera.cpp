@@ -10,6 +10,12 @@ void Camera::updateTransfrom(Vector3 position, Vector3 target, Vector3 upDir) {
 }
 
 
+void Camera::updatePosition(Vector3 position) {
+    m_Position = position;
+    updateViewMatrix();
+}
+
+
 void Camera::updateViewMatrix() {
     m_ViewMatrix = Matrix4x4::CreateViewMatrixByLookAt(m_Position, m_Target, m_UpDir, m_ViewMatrix);
     updateViewProjectionMatrix();

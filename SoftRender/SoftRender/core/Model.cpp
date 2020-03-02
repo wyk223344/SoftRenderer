@@ -2,13 +2,15 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include "../util/Util.h"
 
 
 Model::Model(const std::string path) {
+    LogUtil::LogInfo("[Model]Start load model file %s.", path.c_str());
     std::ifstream in;
     in.open (path, std::ifstream::in);
     if (in.fail()) {
-        std::cout << "Model load fail" << std::endl;
+        LogUtil::LogError("[Model]File %s load fail.", path.c_str());
         return;
     }
     std::string line;
@@ -55,10 +57,11 @@ Model::Model(const std::string path) {
         }
     }
     in.close();
-    std::cout << "Model load finish" << std::endl;
+    LogUtil::LogInfo("[Model]Finish load model file! VertexSize: %d", m_Vertexes.size());
     size_t dotIndex = path.find_last_of(".");
     if (dotIndex != std::string::npos) {
         std::string fileName = path.substr(0, dotIndex);
-        m_DiffuseMapImage.readTgaFile((fileName + "_diffuse.tga").c_str());
+        if (!m_DiffuseMapImage) m_DiffuseMapImage = new Image();
+        m_DiffuseMapImage->readTgaFile((fileName + "_diffuse.tga").c_str());
     }
 };

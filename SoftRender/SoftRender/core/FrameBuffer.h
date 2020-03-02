@@ -5,18 +5,22 @@
 
 class FrameBuffer {
 public:
-    static FrameBuffer Create(int width, int height, int channel);
+    FrameBuffer(int width, int height, int channel);
+    ~FrameBuffer();
+
     unsigned char *getPixelBuffer();
     int getWidth();
     int getHeight();
     void setPixelBuffer(unsigned char *pixelBuffer);
     void clearPixelBuffer();
-    void clonePixelBufferTo(FrameBuffer destFrameBuffer);
+    void clonePixelBufferTo(FrameBuffer *destFrameBuffer);
     void drawPixel(unsigned int x, unsigned int y, Vector4 color);
+    void clean();
 private:
     int m_Width;
     int m_Height;
     int m_Channel;
+    int m_Size;
     unsigned char *m_PixelBuffer;
 };
 

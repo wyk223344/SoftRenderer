@@ -1,4 +1,5 @@
 #ifndef GAME_H
+
 #define GAME_H
 
 
@@ -12,11 +13,12 @@ const int WINDOW_HEIGHT = 600;
 
 class Game {
 public:
-    static Game Create();
+    Game();
+    ~Game();
     void start();
 private:
-    Window m_Window;
-    FrameBuffer m_FrameBuffer;
+    Window *m_Window;
+    FrameBuffer *m_FrameBuffer;
     void init();
     void loop();
 };
